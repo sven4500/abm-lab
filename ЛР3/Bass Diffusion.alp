@@ -109,6 +109,36 @@
 			</ScaleRuler>
 			<ConnectionsId>1554758244842</ConnectionsId>
 			<Variables>
+				<Variable Class="AuxVariable">
+					<Id>1554841907393</Id>
+					<Name><![CDATA[AdoptionFromAd]]></Name>
+					<X>160</X><Y>250</Y>
+					<Label><X>5</X><Y>15</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties External="false" Constant="false" Array="false">
+						<Formula><![CDATA[AdEffectiveness*PotentialAdopters]]></Formula>
+						<Value><![CDATA[0]]></Value>
+						<Color/>
+					</Properties>
+
+				</Variable>
+				<Variable Class="AuxVariable">
+					<Id>1554842555368</Id>
+					<Name><![CDATA[AdoptionFromWOM]]></Name>
+					<X>390</X><Y>290</Y>
+					<Label><X>0</X><Y>-20</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties External="false" Constant="false" Array="false">
+						<Formula><![CDATA[Adopters*ContactRate*AdoptionFraction*PotentialAdopters/TotalPopulation]]></Formula>
+						<Value><![CDATA[0]]></Value>
+						<Color/>
+					</Properties>
+
+				</Variable>
 				<Variable Class="StockVariable">
 					<Id>1554758530204</Id>
 					<Name><![CDATA[PotentialAdopters]]></Name>
@@ -121,7 +151,7 @@
 					<EquationStyle>classic</EquationStyle>
 					<Width>60</Width>
 					<Height>40</Height>
-						<InitialValue><![CDATA[0]]></InitialValue>
+						<InitialValue><![CDATA[TotalPopulation]]></InitialValue>
 						<Color/>
 					</Properties>
 				</Variable>
@@ -163,8 +193,8 @@
 				<Variable Class="Parameter">
 					<Id>1554759207425</Id>
 					<Name><![CDATA[TotalPopulation]]></Name>
-					<X>180</X><Y>240</Y>
-					<Label><X>10</X><Y>-15</Y></Label>
+					<X>80</X><Y>400</Y>
+					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
@@ -187,8 +217,8 @@
 				<Variable Class="Parameter">
 					<Id>1554759248479</Id>
 					<Name><![CDATA[ContactRate]]></Name>
-					<X>300</X><Y>300</Y>
-					<Label><X>10</X><Y>-15</Y></Label>
+					<X>500</X><Y>350</Y>
+					<Label><X>-5</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
@@ -211,8 +241,8 @@
 				<Variable Class="Parameter">
 					<Id>1554759331938</Id>
 					<Name><![CDATA[AdEffectiveness]]></Name>
-					<X>120</X><Y>340</Y>
-					<Label><X>10</X><Y>0</Y></Label>
+					<X>140</X><Y>320</Y>
+					<Label><X>0</X><Y>20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
@@ -235,8 +265,8 @@
 				<Variable Class="Parameter">
 					<Id>1554759372014</Id>
 					<Name><![CDATA[AdoptionFraction]]></Name>
-					<X>420</X><Y>360</Y>
-					<Label><X>10</X><Y>0</Y></Label>
+					<X>430</X><Y>390</Y>
+					<Label><X>15</X><Y>-10</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
@@ -257,6 +287,128 @@
 					</Properties>                 
 				</Variable>
 			</Variables>
+			<Dependences>
+				<Link SourceId="1554759207425" TargetId="1554758530204" Polarity="null">
+					<Height>74.247</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>50</X><Y>-260</Y></Direction>
+					<Id>1554841634593</Id>
+					<Name><![CDATA[TotalPopulation - PotentialAdopters]]></Name>
+					<X>80</X><Y>400</Y>
+					<Label><X>40</X><Y>-50</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1554758530204" TargetId="1554841907393" Polarity="null">
+					<Height>-33.949</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>30</X><Y>110</Y></Direction>
+					<Id>1554842073043</Id>
+					<Name><![CDATA[PotentialAdopters - AdoptionFromAd]]></Name>
+					<X>130</X><Y>140</Y>
+					<Label><X>40</X><Y>-50</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1554759331938" TargetId="1554841907393" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>20</X><Y>-70</Y></Direction>
+					<Id>1554842125530</Id>
+					<Name><![CDATA[AdEffectiveness - AdoptionFromAd]]></Name>
+					<X>140</X><Y>320</Y>
+					<Label><X>40</X><Y>-50</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1554758832855" TargetId="1554842555368" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-30</X><Y>150</Y></Direction>
+					<Id>1554842761671</Id>
+					<Name><![CDATA[Adopters - AdoptionFromWOM]]></Name>
+					<X>420</X><Y>140</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1554759248479" TargetId="1554842555368" Polarity="null">
+					<Height>-14.1</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-110</X><Y>-60</Y></Direction>
+					<Id>1554842767398</Id>
+					<Name><![CDATA[ContactRate - AdoptionFromWOM]]></Name>
+					<X>500</X><Y>350</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1554759372014" TargetId="1554842555368" Polarity="null">
+					<Height>-11.145</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-40</X><Y>-100</Y></Direction>
+					<Id>1554842771720</Id>
+					<Name><![CDATA[AdoptionFraction - AdoptionFromWOM]]></Name>
+					<X>430</X><Y>390</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1554759207425" TargetId="1554842555368" Polarity="null">
+					<Height>-95.484</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>310</X><Y>-110</Y></Direction>
+					<Id>1554842910734</Id>
+					<Name><![CDATA[TotalPopulation - AdoptionFromWOM]]></Name>
+					<X>80</X><Y>400</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1554758530204" TargetId="1554842555368" Polarity="null">
+					<Height>-208.993</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>260</X><Y>150</Y></Direction>
+					<Id>1554842947528</Id>
+					<Name><![CDATA[PotentialAdopters - AdoptionFromWOM]]></Name>
+					<X>130</X><Y>140</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+			</Dependences>
 			<AgentLinks>
 				<AgentLink>
 					<Id>1554758244842</Id>
