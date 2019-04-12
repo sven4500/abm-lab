@@ -112,7 +112,7 @@
 				<Variable Class="AuxVariable">
 					<Id>1554841907393</Id>
 					<Name><![CDATA[AdoptionFromAd]]></Name>
-					<X>140</X><Y>270</Y>
+					<X>140</X><Y>280</Y>
 					<Label><X>15</X><Y>-5</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -127,7 +127,7 @@
 				<Variable Class="AuxVariable">
 					<Id>1554842555368</Id>
 					<Name><![CDATA[AdoptionFromWOM]]></Name>
-					<X>390</X><Y>290</Y>
+					<X>390</X><Y>300</Y>
 					<Label><X>0</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -139,11 +139,43 @@
 					</Properties>
 
 				</Variable>
+				<Variable Class="AuxVariable">
+					<Id>1555098023184</Id>
+					<Name><![CDATA[AdoptionFraction]]></Name>
+					<X>410</X><Y>380</Y>
+					<Label><X>10</X><Y>5</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties External="false" Constant="false" Array="false">
+						<Formula><![CDATA[adoptFraction( time() )]]></Formula>
+						<Value><![CDATA[0]]></Value>
+						<Color/>
+					</Properties>
+
+				</Variable>
+				<Variable Class="AuxVariable">
+					<Id>1555098138854</Id>
+					<Name><![CDATA[ProductLifeTime]]></Name>
+					<Description><![CDATA[Некоторое среднее время жизни продукта. При большом значении все потенциальные потребители превращаются в потребителей. При малом сроке жизни продукта потребителей практически нет. Самый интересный диапазон это значения сопоставимые со времнем адоптации продукта на рынке: тогда возникают колебания обусловленые временной задержкой.
+Изначально это был параметр. Мне стало интересно что произойдёт если задать это значение как вероятность. Можно задать константу и всё вернуть как было.]]></Description>
+					<X>350</X><Y>40</Y>
+					<Label><X>0</X><Y>-20</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties External="false" Constant="false" Array="false">
+						<Formula><![CDATA[2]]></Formula>
+						<Value><![CDATA[0]]></Value>
+						<Color/>
+					</Properties>
+
+				</Variable>
 				<Variable Class="StockVariable">
 					<Id>1554758530204</Id>
 					<Name><![CDATA[PotentialAdopters]]></Name>
-					<X>130</X><Y>140</Y>
-					<Label><X>-50</X><Y>-35</Y></Label>
+					<X>130</X><Y>150</Y>
+					<Label><X>-115</X><Y>-30</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
@@ -158,8 +190,8 @@
 				<Variable Class="StockVariable">
 					<Id>1554758832855</Id>
 					<Name><![CDATA[Adopters]]></Name>
-					<X>420</X><Y>140</Y>
-					<Label><X>-25</X><Y>-35</Y></Label>
+					<X>420</X><Y>150</Y>
+					<Label><X>15</X><Y>-30</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
@@ -174,8 +206,8 @@
 				<Variable Class="Flow">
 					<Id>1554758986974</Id>
 					<Name><![CDATA[AdoptionRate]]></Name>
-					<X>130</X><Y>140</Y>
-					<Label><X>-40</X><Y>-20</Y></Label>
+					<X>130</X><Y>150</Y>
+					<Label><X>10</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
@@ -190,10 +222,31 @@
 						</Points>
 					</Properties>
 				</Variable>
+				<Variable Class="Flow">
+					<Id>1555094580182</Id>
+					<Name><![CDATA[DiscardRate]]></Name>
+					<X>420</X><Y>150</Y>
+					<Label><X>10</X><Y>20</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SourceId="1554758832855" TargetId="1554758530204" External="false" Constant="false" Array="false">
+						<Formula><![CDATA[delay(AdoptionRate,ProductLifeTime)]]></Formula>
+						<Color/>
+						<ValveIndex>2</ValveIndex>
+						<Points>
+							<Point><X>0</X><Y>0</Y></Point>
+							<Point><X>0</X><Y>-70</Y></Point>
+							<Point><X>-150</X><Y>-70</Y></Point>
+							<Point><X>-290</X><Y>-70</Y></Point>
+							<Point><X>-290</X><Y>0</Y></Point>
+						</Points>
+					</Properties>
+				</Variable>
 				<Variable Class="Parameter">
 					<Id>1554759207425</Id>
 					<Name><![CDATA[TotalPopulation]]></Name>
-					<X>110</X><Y>400</Y>
+					<X>110</X><Y>410</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -217,7 +270,7 @@
 				<Variable Class="Parameter">
 					<Id>1554759248479</Id>
 					<Name><![CDATA[ContactRate]]></Name>
-					<X>500</X><Y>350</Y>
+					<X>500</X><Y>360</Y>
 					<Label><X>-5</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -241,7 +294,7 @@
 				<Variable Class="Parameter">
 					<Id>1554759331938</Id>
 					<Name><![CDATA[AdEffectiveness]]></Name>
-					<X>160</X><Y>320</Y>
+					<X>160</X><Y>330</Y>
 					<Label><X>0</X><Y>20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -262,30 +315,6 @@
 						</ParameterEditor>
 					</Properties>                 
 				</Variable>
-				<Variable Class="Parameter">
-					<Id>1554759372014</Id>
-					<Name><![CDATA[AdoptionFraction]]></Name>
-					<X>410</X><Y>370</Y>
-					<Label><X>10</X><Y>5</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[double]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[0.015]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1554759372012</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
 			</Variables>
 			<Dependences>
 				<Link SourceId="1554759207425" TargetId="1554758530204" Polarity="+">
@@ -295,7 +324,7 @@
 					<Direction><X>20</X><Y>-260</Y></Direction>
 					<Id>1554841634593</Id>
 					<Name><![CDATA[TotalPopulation - PotentialAdopters]]></Name>
-					<X>110</X><Y>400</Y>
+					<X>110</X><Y>410</Y>
 					<Label><X>40</X><Y>-50</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -311,7 +340,7 @@
 					<Direction><X>10</X><Y>130</Y></Direction>
 					<Id>1554842073043</Id>
 					<Name><![CDATA[PotentialAdopters - AdoptionFromAd]]></Name>
-					<X>130</X><Y>140</Y>
+					<X>130</X><Y>150</Y>
 					<Label><X>40</X><Y>-50</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -327,7 +356,7 @@
 					<Direction><X>-20</X><Y>-50</Y></Direction>
 					<Id>1554842125530</Id>
 					<Name><![CDATA[AdEffectiveness - AdoptionFromAd]]></Name>
-					<X>160</X><Y>320</Y>
+					<X>160</X><Y>330</Y>
 					<Label><X>40</X><Y>-50</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -337,13 +366,13 @@
 					<Delay>false</Delay>
 				</Link>
 				<Link SourceId="1554758832855" TargetId="1554842555368" Polarity="+">
-					<Height>54.491</Height>
+					<Height>41.406</Height>
 					<Polarity>+</Polarity>
 					<PolarityPosition>0.95</PolarityPosition>
 					<Direction><X>-30</X><Y>150</Y></Direction>
 					<Id>1554842761671</Id>
 					<Name><![CDATA[Adopters - AdoptionFromWOM]]></Name>
-					<X>420</X><Y>140</Y>
+					<X>420</X><Y>150</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -359,7 +388,7 @@
 					<Direction><X>-110</X><Y>-60</Y></Direction>
 					<Id>1554842767398</Id>
 					<Name><![CDATA[ContactRate - AdoptionFromWOM]]></Name>
-					<X>500</X><Y>350</Y>
+					<X>500</X><Y>360</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -368,14 +397,14 @@
 					<LineWidth>1</LineWidth>
 					<Delay>false</Delay>
 				</Link>
-				<Link SourceId="1554759372014" TargetId="1554842555368" Polarity="+">
+				<Link SourceId="1555098023184" TargetId="1554842555368" Polarity="+">
 					<Height>-13.586</Height>
 					<Polarity>+</Polarity>
 					<PolarityPosition>0.95</PolarityPosition>
 					<Direction><X>-20</X><Y>-80</Y></Direction>
 					<Id>1554842771720</Id>
 					<Name><![CDATA[AdoptionFraction - AdoptionFromWOM]]></Name>
-					<X>410</X><Y>370</Y>
+					<X>410</X><Y>380</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -391,7 +420,7 @@
 					<Direction><X>280</X><Y>-110</Y></Direction>
 					<Id>1554842910734</Id>
 					<Name><![CDATA[TotalPopulation - AdoptionFromWOM]]></Name>
-					<X>110</X><Y>400</Y>
+					<X>110</X><Y>410</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -407,7 +436,7 @@
 					<Direction><X>260</X><Y>150</Y></Direction>
 					<Id>1554842947528</Id>
 					<Name><![CDATA[PotentialAdopters - AdoptionFromWOM]]></Name>
-					<X>130</X><Y>140</Y>
+					<X>130</X><Y>150</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -417,13 +446,13 @@
 					<Delay>false</Delay>
 				</Link>
 				<Link SourceId="1554841907393" TargetId="1554758986974" Polarity="+">
-					<Height>-86.999</Height>
+					<Height>-84.148</Height>
 					<Polarity>+</Polarity>
 					<PolarityPosition>0.95</PolarityPosition>
 					<Direction><X>130</X><Y>-130</Y></Direction>
 					<Id>1554927852267</Id>
 					<Name><![CDATA[AdoptionFromAd - AdoptionRate]]></Name>
-					<X>140</X><Y>270</Y>
+					<X>140</X><Y>280</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -433,14 +462,44 @@
 					<Delay>false</Delay>
 				</Link>
 				<Link SourceId="1554842555368" TargetId="1554758986974" Polarity="+">
-					<Height>57.802</Height>
+					<Height>61.705</Height>
 					<Polarity>+</Polarity>
 					<PolarityPosition>0.95</PolarityPosition>
 					<Direction><X>-120</X><Y>-150</Y></Direction>
 					<Id>1554927857643</Id>
 					<Name><![CDATA[AdoptionFromWOM - AdoptionRate]]></Name>
-					<X>390</X><Y>290</Y>
+					<X>390</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1554758986974" TargetId="1555094580182" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>0</X><Y>-70</Y></Direction>
+					<Id>1555094816947</Id>
+					<Name><![CDATA[AdoptionRate - DiscardRate]]></Name>
+					<X>270</X><Y>150</Y>
+					<Label><X>40</X><Y>-50</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1555098138854" TargetId="1555094580182" Polarity="null">
+					<Height>-22.224</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-80</X><Y>40</Y></Direction>
+					<Id>1555094875643</Id>
+					<Name><![CDATA[ProductLifeTime - DiscardRate]]></Name>
+					<X>350</X><Y>40</Y>
+					<Label><X>40</X><Y>-50</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
@@ -454,7 +513,7 @@
 					<Type><![CDATA[B]]></Type>
 					<Id>1554928325108</Id>
 					<Name><![CDATA[loop]]></Name>
-					<X>200</X><Y>200</Y>
+					<X>200</X><Y>210</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -466,7 +525,7 @@
 					<Type><![CDATA[R]]></Type>
 					<Id>1554928611068</Id>
 					<Name><![CDATA[loop1]]></Name>
-					<X>360</X><Y>200</Y>
+					<X>360</X><Y>210</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -475,6 +534,74 @@
 					<Text><![CDATA[Устное общение]]></Text>
 				</CausalLoop>
 			</CausalLoops>
+			<Functions>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1555096834727</Id>
+					<Name><![CDATA[adoptFraction]]></Name>
+					<X>150</X><Y>500</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[time]]></Name>
+						<Type><![CDATA[double]]></Type>
+					</Parameter>
+					<Body><![CDATA[return demand( getMonth() + 1 ) / 200.0;]]></Body>
+				</Function>
+			</Functions>
+			<TableFunctions>
+				<TableFunction AccessType="public" StaticFunction="true">
+					<Id>1555096482921</Id>
+					<Name><![CDATA[demand]]></Name>
+					<Description><![CDATA[Функция моделирует сезонность спроса на продукт.]]></Description>
+					<X>50</X><Y>500</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<InterpolationMethod>LINEAR</InterpolationMethod>
+					<OutOfRangeBehaviour>NEAREST</OutOfRangeBehaviour>
+					<OutOfRangeCustomValue><![CDATA[0.0]]></OutOfRangeCustomValue>
+					<ApproximationOrder><![CDATA[1]]></ApproximationOrder>
+					<LoadFromDatabase><![CDATA[false]]></LoadFromDatabase>
+					<ValuesQuery>
+						<TableReference>
+						</TableReference>
+							<ArgumentColumnReference>
+							</ArgumentColumnReference>
+							<ValueColumnReference>
+							</ValueColumnReference>
+					</ValuesQuery>
+// arguments and values
+					<Argument><![CDATA[1.0]]></Argument>
+					<Argument><![CDATA[2.0]]></Argument>
+					<Argument><![CDATA[3.0]]></Argument>
+					<Argument><![CDATA[4.0]]></Argument>
+					<Argument><![CDATA[5.0]]></Argument>
+					<Argument><![CDATA[6.0]]></Argument>
+					<Argument><![CDATA[7.0]]></Argument>
+					<Argument><![CDATA[8.0]]></Argument>
+					<Argument><![CDATA[9.0]]></Argument>
+					<Argument><![CDATA[10.0]]></Argument>
+					<Argument><![CDATA[11.0]]></Argument>
+					<Argument><![CDATA[12.0]]></Argument>
+					<Value><![CDATA[3.0]]></Value>
+					<Value><![CDATA[3.6]]></Value>
+					<Value><![CDATA[4.1]]></Value>
+					<Value><![CDATA[6.3]]></Value>
+					<Value><![CDATA[7.7]]></Value>
+					<Value><![CDATA[9.6]]></Value>
+					<Value><![CDATA[10.1]]></Value>
+					<Value><![CDATA[9.7]]></Value>
+					<Value><![CDATA[7.4]]></Value>
+					<Value><![CDATA[4.8]]></Value>
+					<Value><![CDATA[3.9]]></Value>
+					<Value><![CDATA[6.3]]></Value>
+				</TableFunction>
+			</TableFunctions>
 			<AgentLinks>
 				<AgentLink>
 					<Id>1554758244842</Id>
@@ -633,6 +760,15 @@
 						<PointStyle>NONE</PointStyle>
 						<LineWidth>1.0</LineWidth>
 					</DatasetExpression>
+					<DatasetExpression>  
+						<Title><![CDATA[Интенсивность отказа]]></Title>
+					<Expression><![CDATA[my_dataset1]]></Expression>
+					<Color>-4565549</Color>
+					<Expression2><![CDATA[DiscardRate]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>
+						<PointStyle>NONE</PointStyle>
+						<LineWidth>1.0</LineWidth>
+					</DatasetExpression>
 					<SamplesToKeep>100</SamplesToKeep>
 					<TimeWindowExpression><![CDATA[8]]></TimeWindowExpression>
 					<FillAreaUnderLine>false</FillAreaUnderLine>
@@ -735,9 +871,6 @@
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[AdEffectiveness]]></ParameterName>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[AdoptionFraction]]></ParameterName>
 				</Parameter>
 			</Parameters>			
 			<PresentationProperties>
