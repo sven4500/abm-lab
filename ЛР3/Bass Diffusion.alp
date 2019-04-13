@@ -109,6 +109,18 @@
 			</ScaleRuler>
 			<ConnectionsId>1554758244842</ConnectionsId>
 			<Variables>
+				<Variable Class="PlainVariable">
+					<Id>1555140972538</Id>
+					<Name><![CDATA[TotalExpenditures]]></Name>
+					<X>50</X><Y>530</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+					</Properties>
+				</Variable>
 				<Variable Class="AuxVariable">
 					<Id>1554841907393</Id>
 					<Name><![CDATA[AdoptionFromAd]]></Name>
@@ -142,6 +154,7 @@
 				<Variable Class="AuxVariable">
 					<Id>1555098023184</Id>
 					<Name><![CDATA[AdoptionFraction]]></Name>
+					<Description><![CDATA[Некоторая переменная отражающая "силу убеждения" при общении потребителей с потенциальными потребителями.]]></Description>
 					<X>410</X><Y>380</Y>
 					<Label><X>10</X><Y>5</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -166,6 +179,21 @@
 					<ShowLabel>true</ShowLabel>
 					<Properties External="false" Constant="false" Array="false">
 						<Formula><![CDATA[2]]></Formula>
+						<Value><![CDATA[0]]></Value>
+						<Color/>
+					</Properties>
+
+				</Variable>
+				<Variable Class="AuxVariable">
+					<Id>1555140666264</Id>
+					<Name><![CDATA[AdEffectiveness]]></Name>
+					<X>150</X><Y>330</Y>
+					<Label><X>10</X><Y>5</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties External="false" Constant="false" Array="false">
+						<Formula><![CDATA[MonthlyExpenditures/10000.0]]></Formula>
 						<Value><![CDATA[0]]></Value>
 						<Color/>
 					</Properties>
@@ -292,10 +320,10 @@
 					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
-					<Id>1554759331938</Id>
-					<Name><![CDATA[AdEffectiveness]]></Name>
-					<X>160</X><Y>330</Y>
-					<Label><X>0</X><Y>20</Y></Label>
+					<Id>1555140593679</Id>
+					<Name><![CDATA[MonthlyExpenditures]]></Name>
+					<X>190</X><Y>370</Y>
+					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
@@ -304,10 +332,34 @@
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[0.011]]></Code>
+							<Code><![CDATA[1100]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
-							<Id>1554759331936</Id>
+							<Id>1555140593677</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1555141226462</Id>
+					<Name><![CDATA[SwitchTime]]></Name>
+					<X>270</X><Y>500</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[3]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1555141226460</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -349,14 +401,14 @@
 					<LineWidth>1</LineWidth>
 					<Delay>false</Delay>
 				</Link>
-				<Link SourceId="1554759331938" TargetId="1554841907393" Polarity="+">
+				<Link SourceId="1555140666264" TargetId="1554841907393" Polarity="+">
 					<Height>25.956</Height>
 					<Polarity>+</Polarity>
 					<PolarityPosition>0.95</PolarityPosition>
-					<Direction><X>-20</X><Y>-50</Y></Direction>
+					<Direction><X>-10</X><Y>-50</Y></Direction>
 					<Id>1554842125530</Id>
 					<Name><![CDATA[AdEffectiveness - AdoptionFromAd]]></Name>
-					<X>160</X><Y>330</Y>
+					<X>150</X><Y>330</Y>
 					<Label><X>40</X><Y>-50</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -507,6 +559,21 @@
 					<LineWidth>1</LineWidth>
 					<Delay>false</Delay>
 				</Link>
+				<Link SourceId="1555140593679" TargetId="1555140666264" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-40</X><Y>-40</Y></Direction>
+					<Id>1555140735148</Id>
+					<Name><![CDATA[MonthlyExpenditures - AdEffectiveness]]></Name>
+					<X>190</X><Y>370</Y>
+					<Label><X>40</X><Y>-50</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
 			</Dependences>
 			<CausalLoops>
 				<CausalLoop Clockwise="false">
@@ -534,6 +601,111 @@
 					<Text><![CDATA[Устное общение]]></Text>
 				</CausalLoop>
 			</CausalLoops>
+			<StatechartElements>
+				<StatechartElement Class="State" ParentState="ROOT_NODE">
+					<Id>1555141330677</Id>
+					<Name><![CDATA[with_advertising]]></Name>
+					<X>420</X><Y>470</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties Width="140" Height="30">
+						<FillColor/>
+					</Properties>
+				</StatechartElement>
+				<StatechartElement Class="State" ParentState="ROOT_NODE">
+					<Id>1555141384126</Id>
+					<Name><![CDATA[without_advertising]]></Name>
+					<X>420</X><Y>540</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties Width="140" Height="30">
+						<EntryAction><![CDATA[MonthlyExpenditures=0]]></EntryAction>
+						<FillColor/>
+					</Properties>
+				</StatechartElement>
+				<StatechartElement Class="EntryPoint" ParentState="ROOT_NODE">
+					<Id>1555141310696</Id>
+					<Name><![CDATA[statechart]]></Name>
+					<X>490</X><Y>430</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>0</X><Y>40</Y></Point>
+					</Points>
+					<Properties Target="1555141330677">
+					</Properties>	
+				</StatechartElement>
+				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
+					<Id>1555141457056</Id>
+					<Name><![CDATA[transition]]></Name>
+					<X>490</X><Y>500</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>0</X><Y>40</Y></Point>
+					</Points>
+					<IconOffset>20.0</IconOffset>
+					<Properties Source="1555141330677" Target="1555141384126" Trigger="timeout">
+						<Timeout Class="CodeUnitValue">
+							<Code><![CDATA[SwitchTime]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+						</Timeout>
+						<Condition><![CDATA[true]]></Condition>
+						<Rate Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="RateUnits"><![CDATA[PER_YEAR]]></Unit>
+						</Rate>
+						<MessageType><![CDATA[Object]]></MessageType>
+						<DefaultTransition>true</DefaultTransition>
+						<FilterType><![CDATA[unconditionally]]></FilterType>
+						<EqualsExpression><![CDATA["text"]]></EqualsExpression>
+						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
+					</Properties>	
+				</StatechartElement>
+			</StatechartElements>
+			<Events>
+				<Event>
+					<Id>1555141024355</Id>
+					<Name><![CDATA[monthlyEvent]]></Name>
+					<X>50</X><Y>560</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties TriggerType="timeout" Mode="cyclic">
+						<Timeout Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+						</Timeout>
+						<Rate Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="RateUnits"><![CDATA[PER_YEAR]]></Unit>
+						</Rate>
+						<OccurrenceAtTime>true</OccurrenceAtTime>
+						<OccurrenceDate>1555142400000</OccurrenceDate>
+						<OccurrenceTime Class="CodeUnitValue">
+							<Code><![CDATA[0]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+						</OccurrenceTime>
+						<RecurrenceCode Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[MONTH]]></Unit>
+						</RecurrenceCode>
+						<Condition><![CDATA[false]]></Condition>
+					</Properties>
+					<Action><![CDATA[TotalExpenditures+=MonthlyExpenditures]]></Action>
+				</Event>
+			</Events>
 			<Functions>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
@@ -615,6 +787,11 @@
 					<AgentLinkType>COLLECTION_OF_LINKS</AgentLinkType>
 					<AgentLinkBidirectional>true</AgentLinkBidirectional>
 					<MessageType><![CDATA[Object]]></MessageType>
+					<StatechartReference>
+						<PackageName><![CDATA[bass_diffusion]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[statechart]]></ItemName>
+					</StatechartReference>
 					<LineStyle>SOLID</LineStyle>
 					<LineWidth>1</LineWidth>
 					<LineColor>-16777216</LineColor>
@@ -870,7 +1047,10 @@
 					<ParameterName><![CDATA[ContactRate]]></ParameterName>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[AdEffectiveness]]></ParameterName>
+					<ParameterName><![CDATA[MonthlyExpenditures]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[SwitchTime]]></ParameterName>
 				</Parameter>
 			</Parameters>			
 			<PresentationProperties>
