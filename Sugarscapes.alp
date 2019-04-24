@@ -243,7 +243,7 @@
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1556058931824</Id>
 					<Name><![CDATA[createResource]]></Name>
-					<Description><![CDATA[Функция для задания изначальных значений уровня ресурса каждой ячейке поля.]]></Description>
+					<Description><![CDATA[Функция для задания изначальных значений уровня ресурса каждой ячейке поля. Вызывается лишь однажды при запуске модели. Функция строит поверхность по средством использования функции capacity.]]></Description>
 					<X>200</X><Y>510</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -269,10 +269,16 @@ for(int x = 0; x < columns; ++x) {
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[for(int x = 0; x < spaceColumns(); ++x) {
+					<Body><![CDATA[int w = (int)spaceCellWidth();
+int h = (int)spaceCellHeight();
+for(int x = 0; x < spaceColumns(); ++x) {
 	for(int y = 0; y < spaceRows(); ++y) {
-		//scapes.getEnvironment().cell
-		//MaxResourceValue = 0;
+		double value = Math.max((double)Resource[x][y] / MaxResourceValue, 0);
+		int red = 255 - (int)(0 * value);
+		int green = 255 - (int)(54 * value);
+		int blue = 255 - (int)(241 * value);
+		Color color = new Color(red, green, blue, 255);
+		ResourceCanvas.fillRectangle(x*w, y*h, w, h, color);
 	}
 }]]></Body>
 				</Function>
@@ -371,6 +377,21 @@ for(int x = 0; x < columns; ++x) {
 			</EmbeddedObjects>
 
 			<Shapes>
+				<Canvas>
+					<Id>1556087694609</Id>
+					<Name><![CDATA[ResourceCanvas]]></Name>
+					<X>0</X><Y>0</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<VisibleCode><![CDATA[true]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>	
+					<Width>500</Width>
+					<Height>300</Height>
+					<Rotation>0</Rotation>
+				</Canvas>
 				<EmbeddedObjectPresentation>
 					<Id>1556058307522</Id>
 					<Name><![CDATA[scapes_presentation]]></Name>
@@ -581,7 +602,7 @@ for(int x = 0; x < columns; ++x) {
 				<Rectangle>
 					<Id>1556058206145</Id>
 					<Name><![CDATA[rectangle]]></Name>
-					<X>-5</X><Y>-5</Y>
+					<X>0</X><Y>0</Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
