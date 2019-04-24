@@ -166,7 +166,7 @@
 				<Event>
 					<Id>1556062192212</Id>
 					<Name><![CDATA[timeout]]></Name>
-					<X>330</X><Y>450</Y>
+					<X>50</X><Y>570</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -192,7 +192,9 @@
 						</RecurrenceCode>
 						<Condition><![CDATA[false]]></Condition>
 					</Properties>
-					<Action><![CDATA[renderResource();]]></Action>
+					<Action><![CDATA[processAllScapes();
+recoilResource();
+renderResource();]]></Action>
 				</Event>
 			</Events>
 			<Functions>
@@ -200,9 +202,9 @@
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
 					<ReturnType><![CDATA[int]]></ReturnType>
 					<Id>1556058460729</Id>
-					<Name><![CDATA[recoilRate]]></Name>
-					<Description><![CDATA[Быстрота пополнения ресурса в единицах за такт.]]></Description>
-					<X>200</X><Y>450</Y>
+					<Name><![CDATA[recoilRateAt]]></Name>
+					<Description><![CDATA[Быстрота восстановления ресурса в единицах за такт.]]></Description>
+					<X>350</X><Y>540</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -221,9 +223,9 @@
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
 					<ReturnType><![CDATA[int]]></ReturnType>
 					<Id>1556058503857</Id>
-					<Name><![CDATA[capacity]]></Name>
-					<Description><![CDATA[Максимальное количество единиц ресурса.]]></Description>
-					<X>200</X><Y>480</Y>
+					<Name><![CDATA[capacityAt]]></Name>
+					<Description><![CDATA[Максимальное количество единиц ресурса для клетки дискретного поля.]]></Description>
+					<X>350</X><Y>570</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -236,7 +238,7 @@
 						<Name><![CDATA[y]]></Name>
 						<Type><![CDATA[int]]></Type>
 					</Parameter>
-					<Body><![CDATA[return x*x+y*y;]]></Body>
+					<Body><![CDATA[return x+y;]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -254,7 +256,7 @@ int rows = spaceRows();
 Resource = new int[columns][rows];
 for(int x = 0; x < columns; ++x) {
 	for(int y = 0; y < rows; ++y) {
-		Resource[x][y] = Math.max(capacity(x, y), 0);
+		Resource[x][y] = Math.max(capacityAt(x, y), 0);
 		MaxResourceValue = Math.max(Resource[x][y], MaxResourceValue);
 	}
 }]]></Body>
@@ -264,7 +266,7 @@ for(int x = 0; x < columns; ++x) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1556060451103</Id>
 					<Name><![CDATA[renderResource]]></Name>
-					<X>200</X><Y>540</Y>
+					<X>200</X><Y>570</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -279,6 +281,112 @@ for(int x = 0; x < spaceColumns(); ++x) {
 		int blue = 255 - (int)(241 * value);
 		Color color = new Color(red, green, blue, 255);
 		ResourceCanvas.fillRectangle(x*w, y*h, w, h, color);
+	}
+}]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1556091656342</Id>
+					<Name><![CDATA[moveScape]]></Name>
+					<X>200</X><Y>450</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[scape]]></Name>
+						<Type><![CDATA[Scape]]></Type>
+					</Parameter>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1556091696271</Id>
+					<Name><![CDATA[harvestResource]]></Name>
+					<X>200</X><Y>420</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[scape]]></Name>
+						<Type><![CDATA[Scape]]></Type>
+					</Parameter>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1556092973477</Id>
+					<Name><![CDATA[cloneScape]]></Name>
+					<X>200</X><Y>390</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[scape]]></Name>
+						<Type><![CDATA[Scape]]></Type>
+					</Parameter>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1556093092537</Id>
+					<Name><![CDATA[recoilResource]]></Name>
+					<X>200</X><Y>540</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[for(int x = 0; x < spaceColumns(); ++x) {
+	for(int y = 0; y < spaceRows(); ++y) {
+		if(scapes.getEnvironment().getAgentAtCell(y, x) == null) {
+			Resource[x][y] += recoilRateAt(x, y);
+			Resource[x][y] = Math.min(Resource[x][y], capacityAt(x, y));
+		}
+	}
+}]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1556093170191</Id>
+					<Name><![CDATA[processAllScapes]]></Name>
+					<Description><![CDATA[Функция обрабатывает всех жуков для каждого жука выбирая подходящее действие. Возможными действиями являются: движение, добыча и размножение.]]></Description>
+					<X>200</X><Y>360</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[for(int i = 0; i < scapes.size(); ++i) {
+	processOneScape(scapes.get(i));
+}]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1556094784790</Id>
+					<Name><![CDATA[processOneScape]]></Name>
+					<X>200</X><Y>330</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[scape]]></Name>
+						<Type><![CDATA[Scape]]></Type>
+					</Parameter>
+					<Body><![CDATA[if(scape.fertilityLevel == scape.wealth) {
+	cloneScape(scape);
+} else {
+	// Считаем количество ресурсов в данной клетке и если
+	// оно меньше чем рядом, то перемещаемся рядом.
+	if(true) {
+		moveScape(scape);
+		scape.loseWealth();
+	} else {
+		harvestResource(scape);
 	}
 }]]></Body>
 				</Function>
@@ -328,10 +436,19 @@ for(int x = 0; x < spaceColumns(); ++x) {
 					</GenericParameterSubstitute>
 					<Parameters>
 						<Parameter>
-							<Name><![CDATA[wealth]]></Name>
+							<Name><![CDATA[FOV]]></Name>
 						</Parameter>
 						<Parameter>
-							<Name><![CDATA[FOV]]></Name>
+							<Name><![CDATA[maxWealth]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[wealthLoseRate]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[fertilityLevel]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[harvestSpeed]]></Name>
 						</Parameter>
 					</Parameters>
 					<ReplicationFlag>true</ReplicationFlag>
@@ -511,29 +628,20 @@ for(int x = 0; x < spaceColumns(); ++x) {
 			</ScaleRuler>
 			<ConnectionsId>1556051854247</ConnectionsId>
 			<Variables>
-				<Variable Class="Parameter">
-					<Id>1556051854252</Id>
+				<Variable Class="PlainVariable">
+					<Id>1556091753444</Id>
 					<Name><![CDATA[wealth]]></Name>
-					<X>50</X><Y>50</Y>
+					<X>50</X><Y>170</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[int]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[10]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>0</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[maxWealth / 2]]></Code>
+						</InitialValue>
+					</Properties>
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1556051854253</Id>
@@ -548,7 +656,7 @@ for(int x = 0; x < spaceColumns(); ++x) {
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[3]]></Code>
+							<Code><![CDATA[2]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>0</Id>
@@ -559,7 +667,150 @@ for(int x = 0; x < spaceColumns(); ++x) {
 						</ParameterEditor>
 					</Properties>                 
 				</Variable>
+				<Variable Class="Parameter">
+					<Id>1556091769792</Id>
+					<Name><![CDATA[maxWealth]]></Name>
+					<Description><![CDATA[Максимальное количсетво ресурсов.]]></Description>
+					<X>50</X><Y>50</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[int]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[25]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1556091769790</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1556092243851</Id>
+					<Name><![CDATA[wealthLoseRate]]></Name>
+					<Description><![CDATA[Количество ресурсов которые теряются за один ход.]]></Description>
+					<X>50</X><Y>20</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[int]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[2]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1556092243849</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1556092895193</Id>
+					<Name><![CDATA[fertilityLevel]]></Name>
+					<X>50</X><Y>110</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[int]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[maxWealth]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1556092895191</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1556093914115</Id>
+					<Name><![CDATA[harvestSpeed]]></Name>
+					<X>50</X><Y>140</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[4]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1556093914113</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
 			</Variables>
+			<Functions>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1556092354319</Id>
+					<Name><![CDATA[loseWealth]]></Name>
+					<X>180</X><Y>20</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[wealth -= wealthLoseRate;
+if(wealth <= 0)
+	die();]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1556092369052</Id>
+					<Name><![CDATA[addWealth]]></Name>
+					<X>180</X><Y>50</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[value]]></Name>
+						<Type><![CDATA[int]]></Type>
+					</Parameter>
+					<Body><![CDATA[wealth += value;
+wealth = Math.min(wealth, maxWealth);]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1556093300407</Id>
+					<Name><![CDATA[die]]></Name>
+					<X>180</X><Y>80</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[((Main)getOwner()).remove_scapes(this);]]></Body>
+				</Function>
+			</Functions>
 			<AgentLinks>
 				<AgentLink>
 					<Id>1556051854247</Id>
