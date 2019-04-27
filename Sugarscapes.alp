@@ -251,7 +251,7 @@ renderResource();
 						<Name><![CDATA[y]]></Name>
 						<Type><![CDATA[int]]></Type>
 					</Parameter>
-					<Body><![CDATA[return (int)Math.abs(x * x - y * y) / 250;]]></Body>
+					<Body><![CDATA[return (int)Math.abs(x * x - y * y) / 150;]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -264,11 +264,13 @@ renderResource();
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[int columns = spaceColumns();
-int rows = spaceRows();
-Resource = new int[columns][rows];
-for(int x = 0; x < columns; ++x) {
-	for(int y = 0; y < rows; ++y) {
+					<Body><![CDATA[int w = spaceColumns();
+int h = spaceRows();
+
+Resource = new int[w][h];
+
+for(int x = 0; x < w; ++x) {
+	for(int y = 0; y < h; ++y) {
 		Resource[x][y] = Math.max(cellCapacity(x, y), 0);
 		MaxResourceValue = Math.max(Resource[x][y], MaxResourceValue);
 	}
@@ -284,23 +286,27 @@ for(int x = 0; x < columns; ++x) {
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[int w = (int)spaceCellWidth();
-int h = (int)spaceCellHeight();
-int columns = spaceColumns();
-int rows = spaceRows();
-for(int x = 0; x < columns; ++x) {
-	for(int y = 0; y < rows; ++y) {
+					<Body><![CDATA[int сw = (int)spaceCellWidth();
+int сh = (int)spaceCellHeight();
+
+int w = spaceColumns();
+int h = spaceRows();
+
+for(int x = 0; x < w; ++x) {
+	for(int y = 0; y < h; ++y) {
 		// Высчитываем интенсивность цвета, где минимальная
 		// интенсивность цвета есть полное отсутствие
 		// ресурса, а максимальная (яркий цвет) его
 		// присутствие.
 		double intensity = Math.abs((double)Resource[x][y] / MaxResourceValue);
-		int r = 255 - (int)(  0 * intensity);
-		int g = 255 - (int)( 54 * intensity);
+		
+		int r = 255 - (int)(0 * intensity);
+		int g = 255 - (int)(54 * intensity);
 		int b = 255 - (int)(241 * intensity);
 		int a = 255;
+		
 		Color color = new Color(r, g, b, a);
-		ResourceCanvas.fillRectangle(x * w, y * h, w, h, color);
+		ResourceCanvas.fillRectangle(x * сw, y * сh, w, h, color);
 	}
 }]]></Body>
 				</Function>
@@ -309,7 +315,7 @@ for(int x = 0; x < columns; ++x) {
 					<ReturnType><![CDATA[boolean]]></ReturnType>
 					<Id>1556091656342</Id>
 					<Name><![CDATA[moveScape]]></Name>
-					<Description><![CDATA[Функция задающая поведение перемещения жука. По порядку проверяет все стороны света и производит движение в ту сторону в которой ресурса больше чем в клетке в которой находится жук сейчас. Если такой клетки нет, то производится движение в произвольную сторону света.]]></Description>
+					<Description><![CDATA[Функция задающая поведение перемещения жука. Если жук видит что где-то ресурсов больше, то он пытается занять эту клетку. Где-то ключевое слово, так как жуки не сравнивают ресурсы по сторонам света, а лишь перемещаются где лучше чем сейчас, а не где лучше всех.]]></Description>
 					<X>200</X><Y>450</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -321,56 +327,58 @@ for(int x = 0; x < columns; ++x) {
 					</Parameter>
 					<Body><![CDATA[int x = scape.getC();
 int y = scape.getR();
-int r = Resource[x][y];
+
 int w = spaceColumns();
 int h = spaceRows();
-if(w < 2 && h < 2) {
-	// Выходим если размер полотна меньше 1x1 клетка
-	return false;
-}
-else if(scape.getAgentNextToMe(NORTH) == null && y > 0 && Resource[x][y-1] > r) {
-	scape.moveToNextCell(NORTH);
-	scape.loseWealth();
-	return true;
-}
-else if(scape.getAgentNextToMe(EAST) == null && x < w - 1 && Resource[x+1][y] > r) {
-	scape.moveToNextCell(EAST);
-	scape.loseWealth();
-	return true;
-}
-else if(scape.getAgentNextToMe(SOUTH) == null && y < h - 1 && Resource[x][y+1] > r) {
-	scape.moveToNextCell(SOUTH);
-	scape.loseWealth();
-	return true;
-}
-else if(scape.getAgentNextToMe(WEST) == null && x > 0 && Resource[x-1][y] > r) {
-	scape.moveToNextCell(WEST);
-	scape.loseWealth();
-	return true;
-}
-else if(Resource[x][y] == 0) {
-	// Самое интересное если оказались на пустой клетке, то движемся в
-	// произвольном нправлении куда глаза глядят.
-	int d = (int)(3 * Math.random());
-	CellDirection dir[] = {NORTH, EAST, SOUTH, WEST};
-	if(x > 0 && y > 0 && x < w - 1 && y < h - 1 && scape.getAgentNextToMe(dir[d]) == null) {
-		scape.moveToNextCell(dir[d]);
-		scape.loseWealth();
-		return true;
+
+int r = Resource[x][y];
+
+ArrayList<CellDirection> dir = new ArrayList<CellDirection>();
+dir.add(NORTH);
+dir.add(EAST);
+dir.add(SOUTH);
+dir.add(WEST);
+Collections.shuffle(dir);
+
+for(int i = 0; i < dir.size(); ++i) {
+	CellDirection d = dir.get(i);
+	if(scape.getAgentNextToMe(d) == null) {
+		if(d == NORTH) {
+			if(y > 0 && (Resource[x][y-1] > r || r == 0)) {
+				scape.moveToNextCell(d);
+				scape.loseWealth();
+				return true;
+			}
+		} else if(d == EAST) {
+			if(x < w - 1 && (Resource[x+1][y] > r || r == 0)) {
+				scape.moveToNextCell(d);
+				scape.loseWealth();
+				return true;
+			}
+		} else if(d == SOUTH) {
+			if(y < h - 1 && (Resource[x][y+1] > r || r == 0)) {
+				scape.moveToNextCell(d);
+				scape.loseWealth();
+				return true;
+			}
+		} else if(d == WEST) {
+			if(x > 0 && (Resource[x-1][y] > r || r == 0)) {
+				scape.moveToNextCell(d);
+				scape.loseWealth();
+				return true;
+			}
+		}
 	}
-	else {
-		return false;
-	}
 }
-else {
-	return false;
-}]]></Body>
+
+return false;]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
 					<ReturnType><![CDATA[boolean]]></ReturnType>
 					<Id>1556091696271</Id>
 					<Name><![CDATA[harvestResource]]></Name>
+					<Description><![CDATA[Функция отнимает ресурс у клетки поля и передаёт его жуку на этом поле.]]></Description>
 					<X>200</X><Y>420</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -382,6 +390,7 @@ else {
 					</Parameter>
 					<Body><![CDATA[int x = scape.getC();
 int y = scape.getR();
+
 if(Resource[x][y] > 0) {
 	int tmp = Resource[x][y];
 	Resource[x][y] -= scape.harvestSpeed;
@@ -420,10 +429,11 @@ else {
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[int columns = spaceColumns();
-int rows = spaceRows();
-for(int x = 0; x < columns; ++x) {
-	for(int y = 0; y < rows; ++y) {
+					<Body><![CDATA[int w = spaceColumns();
+int h = spaceRows();
+
+for(int x = 0; x < w; ++x) {
+	for(int y = 0; y < h; ++y) {
 		// Восстанавливаем ресурс только если там нет жука.
 		if(scapes.getEnvironment().getAgentAtCell(y, x) == null) {
 			Resource[x][y] += cellReloadRate(x, y);
@@ -447,16 +457,26 @@ for(int x = 0; x < columns; ++x) {
 // родиться новый жук и список станет не актуальным. Жуков
 // выбираем произвольно.
 List list = new ArrayList(scapes.getEnvironment().agents());
-Random rand = new Random();
 int size = list.size();
+
+Random rand = new Random();
+
 for(int i = 0; i < size; ++i) {
+	// Здесь важно произвольное значение именно на отрезке list.size()
+	// так как список жуков постепенно уменьшается.
 	int j = rand.nextInt(list.size());
 	Scape sc = (Scape)list.get(j);
+	
 	// Здесь коротким замыканием обрабатываем по очереди
 	// возможные действия до первого успешного.
 	boolean b = cloneScape(sc) || moveScape(sc) || harvestResource(sc);
+	
+	// Если жук так и не смог выполнить не одного действия,
+	// то уменьшаем его жизни.
 	if(b == false)
 		sc.loseWealth();
+		
+	// Удаляем жука из списка обработки.
 	list.remove(j);
 }]]></Body>
 				</Function>
@@ -938,9 +958,9 @@ wealth = Math.min(wealth, maxWealth);]]></Body>
 // достаточно высок то можем клонировать себя.
 int x = getC();
 int y = getR();
-int columns = ((Main)getOwner()).spaceColumns();
-int rows = ((Main)getOwner()).spaceRows();
-if(wealth >= fertilityLevel && x > 0 && y > 0 && x < columns - 1 && y < rows - 1) {
+int w = ((Main)getOwner()).spaceColumns();
+int h = ((Main)getOwner()).spaceRows();
+if(wealth >= fertilityLevel && x > 0 && y > 0 && x < w - 1 && y < h - 1) {
 	// Клонируем себя в произвольную не занятую клетку.
 	ArrayList<CellDirection> dir = new ArrayList<CellDirection>();
 	dir.add(NORTH);
